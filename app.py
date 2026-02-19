@@ -54,5 +54,14 @@ def restock():
 
     return render_template("restock.html", recommendations=recommendations)
 
+
+@app.route("/delete/<int:item_id>", methods=["POST"])
+def delete_item(item_id):
+    conn = get_db()
+    conn.execute("DELETE FROM inventory WHERE id = ?", (item_id,))
+    conn.commit()
+    conn.close()
+    return redirect("/")
+
 if __name__ == "__main__":
     app.run(debug=True)
